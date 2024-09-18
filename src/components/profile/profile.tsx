@@ -3,7 +3,11 @@ import React, { FC, ReactElement } from 'react';
 
 import PropTypes from 'prop-types';
 
-export const Profile: FC = (props: any): ReactElement => {
+interface IProfile {
+  name?: string;
+}
+
+export const Profile: FC<IProfile> = (props): ReactElement => {
   // destructuring props
   const { name = "John"} = props;
   return (
@@ -35,4 +39,6 @@ export const Profile: FC = (props: any): ReactElement => {
   )
 };
 
-Profile.propTypes = {};
+Profile.propTypes = {
+  name: PropTypes.string,
+};
