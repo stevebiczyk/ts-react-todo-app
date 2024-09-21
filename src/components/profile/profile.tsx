@@ -26,7 +26,7 @@ export const Profile: FC<IProfile> = (props): ReactElement => {
         }}
       >
         <Typography variant="h4" color="text.primary">
-          {`${name.charAt(0).toUpperCase}`}
+        {`${name.substring(0, 1)}`}
         </Typography>
       </Avatar>
       <Typography variant="h6" color="text.primary">

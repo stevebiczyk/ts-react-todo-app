@@ -23,7 +23,6 @@ export const CreateTaskForm: FC = (): ReactElement => {
               <TaskTitleField />
               <TaskDescriptionField />
             </Stack>
-            {/*Task Description/}
             {/*Task Date*/}
             {/*Task Status*/}
             {/*Task Priority*/}
