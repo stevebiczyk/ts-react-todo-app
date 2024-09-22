@@ -27,7 +27,7 @@ export const TaskDateField: FC<IDateField> = (
                 value={value}
                 onChange={onChange}
                 disabled={disabled}
-                renderInput={(params: TextFieldProps) => (<TextField {...params} />)}
+                // renderInput={(params: TextFieldProps) => (<TextField {...params} />)}
             />
         </LocalizationProvider>
         </>
