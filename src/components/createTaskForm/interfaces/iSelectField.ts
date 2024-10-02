@@ -6,7 +6,7 @@ export interface iSelectItems {
   label: string;
 }
 
-export interface iSelectField extends IDisabled {
+export interface ISelectField extends IDisabled {
   name?: string;
   label?: string;
   value?: string;
