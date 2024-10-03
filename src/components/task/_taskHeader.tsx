@@ -1,8 +1,8 @@
 import React, { FC, ReactElement} from "react";
 import { Box, Chip, Typography } from "@mui/material";
 import { ITaskHeader } from "./interfaces/ITaskHeader";
-import format from "date-fns/format";
-import { PropTypes } from "prop-types";
+import { format } from 'date-fns';
+import PropTypes from "prop-types";
 
 export const TaskHeader: FC<ITaskHeader> = (props): ReactElement => {
     //destructuring the props
@@ -12,8 +12,7 @@ export const TaskHeader: FC<ITaskHeader> = (props): ReactElement => {
         display="flex"
         width="100%"
         justifyContent="space-between"
-        alignItems="center"
-        mb={4}
+        mb={3}
         >
             <Box>
                 <Typography variant="h6">{title}</Typography>
