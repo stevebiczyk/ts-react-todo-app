@@ -9,7 +9,7 @@ interface IProfile {
 
 export const Profile: FC<IProfile> = (props): ReactElement => {
   // destructuring props
-  const { name = "John"} = props;
+  const { name = 'John' } = props;
   return (
     <Box
       display="flex"
@@ -26,7 +26,7 @@ export const Profile: FC<IProfile> = (props): ReactElement => {
         }}
       >
         <Typography variant="h4" color="text.primary">
-        {`${name.substring(0, 1)}`}
+          {`${name.substring(0, 1)}`}
         </Typography>
       </Avatar>
       <Typography variant="h6" color="text.primary">
@@ -36,7 +36,7 @@ export const Profile: FC<IProfile> = (props): ReactElement => {
         This is your personal tasks manager
       </Typography>
     </Box>
-  )
+  );
 };
 
 Profile.propTypes = {
