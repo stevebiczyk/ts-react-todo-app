@@ -30,13 +30,17 @@ export const CreateTaskForm: FC = (): ReactElement => {
       </Typography>
 
       <Stack sx={{ width: '100%' }} spacing={2}>
-        <TaskTitleField />
-        <TaskDescriptionField />
-        <TaskDateField />
+        <TaskTitleField onChange={(event) => setTitle(event.target.value)} />
+        <TaskDescriptionField
+          onChange={(event) => setDescription(event.target.value)}
+        />
+        <TaskDateField value={date} onChange={(date) => setDate(date)} />
         <Stack sx={{ width: '100%' }} direction="row" spacing={2}>
           <TaskSelectField
             label="Status"
             name="status"
+            value={status}
+            onChange={(event) => setStatus(event.target.value as string)}
             items={[
               { value: Status.todo, label: Status.todo.toUpperCase() },
               {
@@ -52,6 +56,8 @@ export const CreateTaskForm: FC = (): ReactElement => {
           <TaskSelectField
             label="Priority"
             name="priority"
+            value={priority}
+            onChange={(event) => setPriority(event.target.value as string)}
             items={[
               { value: Priority.low, label: Priority.low.toUpperCase() },
               { value: Priority.medium, label: Priority.medium.toUpperCase() },
