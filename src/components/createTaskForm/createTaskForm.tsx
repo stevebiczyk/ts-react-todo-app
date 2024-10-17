@@ -22,15 +22,35 @@ import { ICreateTask } from '../taskArea/interfaces/ICreateTask';
 export const CreateTaskForm: FC = (): ReactElement => {
   // Declare component states
   const [title, setTitle] = useState<string | undefined>(undefined);
-  const [descripton, setDescription] = useState<string | undefined>(undefined);
+  const [description, setDescription] = useState<string | undefined>(undefined);
   const [date, setDate] = useState<Date | null>(new Date());
   const [status, setStatus] = useState<string>(Status.todo);
   const [priority, setPriority] = useState<string>(Priority.medium);
 
   // Create task mutation
-  const createTaskMutation = useMutation((data: ICreateTask) => {
-    sendApiRequest('http://localhost:3200/tasks', 'POST', data);
+  // const createTaskMutation = useMutation((data: ICreateTask) => {
+  //   sendApiRequest('http://localhost:3200/tasks', 'POST', data);
+  // });
+
+  const createTaskMutation = useMutation<unknown, Error, ICreateTask>({
+    mutationFn: (data: ICreateTask) => {
+      return sendApiRequest('http://localhost:3200/tasks', 'POST', data);
+    },
   });
+
+  function createTaskHandler() {
+    if (!title || !date || !description) {
+      return;
+    }
+    const task: ICreateTask = {
+      title,
+      description,
+      date,
+      status,
+      priority,
+    };
+    createTaskMutation.mutate(task);
+  }
 
   return (
     <Box
@@ -79,14 +99,19 @@ export const CreateTaskForm: FC = (): ReactElement => {
             value={priority}
             onChange={(event) => setPriority(event.target.value as string)}
             items={[
-              { value: Priority.low, label: Priority.low.toUpperCase() },
-              { value: Priority.medium, label: Priority.medium.toUpperCase() },
-              { value: Priority.high, label: Priority.high.toUpperCase() },
+              { value: Priority.low, label: Priority.low },
+              { value: Priority.medium, label: Priority.medium },
+              { value: Priority.high, label: Priority.high },
             ]}
           />
         </Stack>
         <LinearProgress />
-        <Button variant="contained" size="large" fullWidth>
+        <Button
+          onClick={createTaskHandler}
+          variant="contained"
+          size="large"
+          fullWidth
+        >
           Create A Task
         </Button>
       </Stack>
