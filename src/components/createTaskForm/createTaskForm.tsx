@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, useState } from 'react';
+import React, { FC, ReactElement, useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -27,6 +27,8 @@ export const CreateTaskForm: FC = (): ReactElement => {
   const [status, setStatus] = useState<string>(Status.todo);
   const [priority, setPriority] = useState<string>(Priority.medium);
 
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
+
   // Create task mutation
   // const createTaskMutation = useMutation((data: ICreateTask) => {
   //   sendApiRequest('http://localhost:3200/tasks', 'POST', data);
@@ -52,6 +54,24 @@ export const CreateTaskForm: FC = (): ReactElement => {
     createTaskMutation.mutate(task);
   }
 
+  /**
+   * Manage side effects inside the application
+   */
+
+  useEffect(() => {
+    if (createTaskMutation.isSuccess) {
+      setShowSuccess(true);
+    }
+
+    const successTimeout = setTimeout(() => {
+      setShowSuccess(false);
+    }, 7000);
+
+    return () => {
+      clearTimeout(successTimeout);
+    };
+  }, [createTaskMutation.isSuccess]);
+
   return (
     <Box
       display="flex"
@@ -61,10 +81,13 @@ export const CreateTaskForm: FC = (): ReactElement => {
       px={4}
       my={6}
     >
-      <Alert severity="success" sx={{ width: '100%', marginBottom: '16px' }}>
-        <AlertTitle>Success</AlertTitle>
-        The task has been created successfully!
-      </Alert>
+      {showSuccess && (
+        <Alert severity="success" sx={{ width: '100%', marginBottom: '16px' }}>
+          <AlertTitle>Success</AlertTitle>
+          The task has been created successfully!
+        </Alert>
+      )}
+
       <Typography mb={2} component="h2" variant="h6">
         Create A New Task
       </Typography>
