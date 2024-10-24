@@ -8,12 +8,22 @@ import { useQuery } from '@tanstack/react-query';
 import { sendApiRequest } from '../../helpers/sendApiRequest';
 import { ITaskAPI } from './interfaces/ITaskAPI';
 
+// export const TaskArea: FC = (): ReactElement => {
+//   const { error, isLoading, data, refetch } = useQuery('tasks', async () => {
+//     return await sendApiRequest<ITaskAPI[]>(
+//       'http://localhost:3200/tasks',
+//       'GET',
+//     );
+//   });
 export const TaskArea: FC = (): ReactElement => {
-  const { error, isLoading, data, refetch } = useQuery('tasks', async () => {
-    return await sendApiRequest<ITaskAPI[]>(
-      'http://localhost:3200/tasks',
-      'GET',
-    );
+  const { error, isLoading, data, refetch } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      return await sendApiRequest<ITaskAPI[]>(
+        'http://localhost:3200/tasks',
+        'GET',
+      );
+    },
   });
   return (
     <Grid item md={8} px={4}>
