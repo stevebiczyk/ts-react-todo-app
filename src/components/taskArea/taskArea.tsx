@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useContext, useEffect } from 'react';
 
 import { Grid, Box, Alert, LinearProgress } from '@mui/material';
 import { format } from 'date-fns';
@@ -10,6 +10,7 @@ import { ITaskAPI } from './interfaces/ITaskAPI';
 import { Status } from '../createTaskForm/enums/Status';
 import { IUpdateTask } from '../task/interfaces/IUpdateTask';
 import { countTasks } from './helpers/countTasks';
+import { TaskStatusChangedContext } from '../../context';
 
 // export const TaskArea: FC = (): ReactElement => {
 //   const { error, isLoading, data, refetch } = useQuery('tasks', async () => {
@@ -19,6 +20,7 @@ import { countTasks } from './helpers/countTasks';
 //     );
 //   });
 export const TaskArea: FC = (): ReactElement => {
+  const tasksUpdatedContext = useContext(TaskStatusChangedContext);
   const { error, isLoading, data, refetch } = useQuery({
     queryKey: ['tasks'],
     queryFn: async () => {
@@ -38,6 +40,16 @@ export const TaskArea: FC = (): ReactElement => {
     mutationFn: (data: IUpdateTask) =>
       sendApiRequest('http://localhost:3200/tasks', 'PUT', data),
   });
+
+  useEffect(() => {
+    refetch();
+  }, [tasksUpdatedContext.updated]);
+
+  useEffect(() => {
+    if (updateTaskMutation.isSuccess) {
+      tasksUpdatedContext.toggle();
+    }
+  }, [updateTaskMutation.isSuccess]);
 
   function onStatusChangeHandler(
     e: React.ChangeEvent<HTMLInputElement>,
