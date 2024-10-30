@@ -4,10 +4,11 @@ import { Grid, Box, Alert, LinearProgress } from '@mui/material';
 import { format } from 'date-fns';
 import { TaskCounter } from '../taskCounter/taskCounter';
 import { Task } from '../task/task';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { sendApiRequest } from '../../helpers/sendApiRequest';
 import { ITaskAPI } from './interfaces/ITaskAPI';
 import { Status } from '../createTaskForm/enums/Status';
+import { IUpdateTask } from '../task/interfaces/IUpdateTask';
 // import { id, is } from 'date-fns/locale';
 
 // export const TaskArea: FC = (): ReactElement => {
@@ -27,6 +28,17 @@ export const TaskArea: FC = (): ReactElement => {
       );
     },
   });
+
+  //update task mutation
+  // const updateTaskMutation = useMutation((data: IUpdateTask) =>
+  //   sendApiRequest('http://localhost:3200/tasks', 'PUT', data),
+  // );
+
+  const updateTaskMutation = useMutation<unknown, Error, IUpdateTask>({
+    mutationFn: (data: IUpdateTask) =>
+      sendApiRequest('http://localhost:3200/tasks', 'PUT', data),
+  });
+
   return (
     <Grid item md={8} px={4}>
       <Box mb={8} px={4}>

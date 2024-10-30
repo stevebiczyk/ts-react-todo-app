@@ -1,33 +1,79 @@
-import React, { FC, ReactElement} from "react";
-import { Box, Chip, Typography } from "@mui/material";
-import { ITaskHeader } from "./interfaces/ITaskHeader";
+// import React, { FC, ReactElement } from 'react';
+// import { Box, Chip, Typography } from '@mui/material';
+// import { ITaskHeader } from './interfaces/ITaskHeader';
+// import { format } from 'date-fns';
+// import PropTypes from 'prop-types';
+
+// export const TaskHeader: FC<ITaskHeader> = (props): ReactElement => {
+//   //destructuring the props
+//   const { title = 'Default Title', date = new Date() } = props;
+//   return (
+//     <Box display="flex" width="100%" justifyContent="space-between" mb={3}>
+//       <Box>
+//         <Typography variant="h6">{title}</Typography>
+//       </Box>
+//       <Box>
+//         <Chip variant="outlined" label={format(date, 'PPP')} />
+//       </Box>
+//     </Box>
+//   );
+// };
+
+// TaskHeader.propTypes = {
+//   title: PropTypes.string,
+//   date: PropTypes.instanceOf(Date),
+// };
+// TaskHeader.propTypes = {
+//   title: PropTypes.string,
+//   date: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
+// };
+
+import React, { FC, ReactElement } from 'react';
+import { Box, Chip, Typography } from '@mui/material';
+import { ITaskHeader } from './interfaces/ITaskHeader';
 import { format } from 'date-fns';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
 export const TaskHeader: FC<ITaskHeader> = (props): ReactElement => {
-    //destructuring the props
-    const { title= "Default Title", date= new Date() } = props;
-    return (
-        <Box
-        display="flex"
-        width="100%"
-        justifyContent="space-between"
-        mb={3}
-        >
-            <Box>
-                <Typography variant="h6">{title}</Typography>
-            </Box>
-            <Box>
-                <Chip
-                variant="outlined"
-                label={format(date, "PPP")}
-                />
-            </Box>
-        </Box>
-    );
+  // Destructuring the props
+  const { title = 'Default Title', date } = props;
+
+  // Initialize dateValue
+  let dateValue: Date;
+
+  // Parse and validate the date
+  if (date) {
+    if (typeof date === 'string') {
+      dateValue = new Date(date);
+    } else if (date instanceof Date) {
+      dateValue = date;
+    } else {
+      console.error('Invalid date prop:', date);
+      dateValue = new Date(); // Fallback to current date
+    }
+  } else {
+    dateValue = new Date(); // Fallback to current date
+  }
+
+  // Check if dateValue is valid
+  if (isNaN(dateValue.getTime())) {
+    console.error('Invalid date value:', date);
+    dateValue = new Date(); // Fallback to current date
+  }
+
+  return (
+    <Box display="flex" width="100%" justifyContent="space-between" mb={3}>
+      <Box>
+        <Typography variant="h6">{title}</Typography>
+      </Box>
+      <Box>
+        <Chip variant="outlined" label={format(dateValue, 'PPP')} />
+      </Box>
+    </Box>
+  );
 };
 
 TaskHeader.propTypes = {
-    title: PropTypes.string,
-    date: PropTypes.instanceOf(Date),
+  title: PropTypes.string,
+  date: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.string]),
 };

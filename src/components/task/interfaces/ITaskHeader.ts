@@ -1,4 +1,8 @@
+// export interface ITaskHeader {
+//   title?: string;
+//   date?: Date;
+// }
 export interface ITaskHeader {
   title?: string;
-  date?: Date;
+  date?: string | Date;
 }
